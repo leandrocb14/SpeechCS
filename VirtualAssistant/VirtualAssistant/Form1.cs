@@ -23,6 +23,7 @@ namespace VirtualAssistant
         private string operation;
         private double number2 = -1;
         private bool operationComplete = false;
+        private bool alreadyRecognizing = false;
 
         public Form1()
         {
@@ -59,14 +60,16 @@ namespace VirtualAssistant
         private void Form1_Load(object sender, EventArgs e)
         {
             LoadSpeechNumber();
+            this.btnReset.Enabled = false;
         }
 
 
         // Chamadado quando algo é reconhecido
         private void rec1(object s, SpeechRecognizedEventArgs e)
         {
-            if (!operationComplete)
+            if (!operationComplete && !alreadyRecognizing)
             {
+                this.alreadyRecognizing = true;
                 if (this.number1 == -1)
                 {
                     txtBoxNumber1.Text = e.Result.Text;
@@ -91,22 +94,25 @@ namespace VirtualAssistant
                             this.txtBoxResult.Text = Convert.ToString(result);
                             MessageBox.Show(this.OperationToDo(this.number1, this.operation, this.number2));
                             this.operationComplete = true;
+                            this.btnReset.Enabled = true;
                         }
                     }
-
                 }
-            }            
+            }
+            this.alreadyRecognizing = false;
         }
 
         private string OperationToDo(double number1, string operation, double number2)
         {
             
             if (operation == "mais")
-                return string.Format("O resultado da soma é: {0}", Convert.ToString(Math.Round((number1 + number2), 2)));
+                return string.Format("O resultado da soma é: {0}", Convert.ToString((number1 + number2)));
             else if (operation == "menos")
-                return string.Format("O resultado da subtração é: {0}", Convert.ToString(Math.Round((number1 - number2), 2)));
-            else
+                return string.Format("O resultado da subtração é: {0}", Convert.ToString((number1 - number2)));
+            else if(operation == "dividido")
                 return string.Format("O resultado da divisão é: {0}", Convert.ToString(Math.Round((number1 / number2), 2)));
+            else
+                return string.Format("O resultado da multiplicação é: {0}", Convert.ToString((number1 * number2)));
         }
 
         private void ResetRecognize()
@@ -118,6 +124,8 @@ namespace VirtualAssistant
             this.txtBoxNumber2.Text = "";
             this.txtBoxOperation.Text = "";
             this.txtBoxResult.Text = "";
+            this.btnReset.Enabled = false;
+            this.operationComplete = false;
         }
 
         private string RecognizeSignal(string operation)
@@ -126,8 +134,10 @@ namespace VirtualAssistant
                 return string.Format("+");
             else if (operation == "menos")
                 return string.Format("-");
-            else
+            else if(operation == "dividido")
                 return string.Format("/");
+            else
+                return string.Format("*");
         }
 
         private double operationBetweenVariables(double number1, string operation, double number2)
@@ -136,13 +146,21 @@ namespace VirtualAssistant
                 return number1 + number2;
             else if (operation == "menos")
                 return number1 - number2;
-            else
+            else if(operation == "dividido")
                 return number1 / number2;
+            else
+                return number1 * number2;
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             this.engine.Dispose();
+        }
+
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            this.ResetRecognize();
+            this.btnReset.Enabled = false;
         }
     }
 }

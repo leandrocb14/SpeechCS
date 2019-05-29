@@ -17,7 +17,8 @@ namespace VirtualAssistant.Repository
                 {
                     "mais",
                     "menos",
-                    "dividido"
+                    "dividido",
+                    "vezes"
                 };
             }
         }

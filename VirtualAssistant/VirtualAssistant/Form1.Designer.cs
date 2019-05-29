@@ -33,6 +33,7 @@
             this.txtBoxNumber2 = new System.Windows.Forms.TextBox();
             this.labelEquals = new System.Windows.Forms.Label();
             this.txtBoxResult = new System.Windows.Forms.TextBox();
+            this.btnReset = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // txtBoxNumber1
@@ -80,11 +81,22 @@
             this.txtBoxResult.Size = new System.Drawing.Size(39, 20);
             this.txtBoxResult.TabIndex = 4;
             // 
+            // btnReset
+            // 
+            this.btnReset.Location = new System.Drawing.Point(344, 149);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(75, 23);
+            this.btnReset.TabIndex = 5;
+            this.btnReset.Text = "Reiniciar";
+            this.btnReset.UseVisualStyleBackColor = true;
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnReset);
             this.Controls.Add(this.txtBoxResult);
             this.Controls.Add(this.labelEquals);
             this.Controls.Add(this.txtBoxNumber2);
@@ -106,6 +118,7 @@
         private System.Windows.Forms.TextBox txtBoxNumber2;
         private System.Windows.Forms.Label labelEquals;
         private System.Windows.Forms.TextBox txtBoxResult;
+        private System.Windows.Forms.Button btnReset;
     }
 }
 
